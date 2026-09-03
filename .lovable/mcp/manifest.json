@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "sdk_version": "0.25.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://vtffshuxtlovfkpheuul.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "pixelspark-studio",
+      "version": "0.1.0",
+      "title": "PixelSpark Studio"
+    },
+    "tools": [
+      {
+        "name": "list_portfolio_projects",
+        "title": "List portfolio projects",
+        "description": "List PixelSpark Studio's portfolio projects with categories, summaries and live links.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_services_and_pricing",
+        "title": "List services and pricing",
+        "description": "List the studio's services and its pricing tiers with what each package includes.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_contact_info",
+        "title": "Get contact info",
+        "description": "Get PixelSpark Studio's contact details (WhatsApp, email, founder and tagline).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_testimonials",
+        "title": "List client testimonials",
+        "description": "List approved client testimonials with display name, title, rating and message.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "How many testimonials to return (default 10).",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "submit_testimonial",
+        "title": "Submit a testimonial",
+        "description": "Submit a client testimonial for review. Submissions are held until approved before appearing on the site.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "full_name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The client's full name (kept private)."
+            },
+            "display_name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Public display name, e.g. 'Sarah A.'"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Role or company, e.g. 'Founder, Tranquil Oasis'."
+            },
+            "rating": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "Rating from 1 to 5."
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The testimonial text."
+            }
+          },
+          "required": [
+            "full_name",
+            "display_name",
+            "title",
+            "rating",
+            "message"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
