@@ -21,7 +21,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          email: string
+          email?: string
         }
         Update: {
           created_at?: string
@@ -131,7 +131,62 @@ export type Database = {
             referencedRelation: "goldie_leads"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "contact_events_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "pricing_plans"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      engagement_abuse: {
+        Row: {
+          created_at: string
+          id: string
+          interaction_type: string | null
+          project_id: string | null
+          reason: string
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interaction_type?: string | null
+          project_id?: string | null
+          reason: string
+          visitor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interaction_type?: string | null
+          project_id?: string | null
+          reason?: string
+          visitor_id?: string
+        }
+        Relationships: []
+      }
+      engagement_rules: {
+        Row: {
+          description: string | null
+          key: string
+          updated_at: string
+          value: number
+        }
+        Insert: {
+          description?: string | null
+          key: string
+          updated_at?: string
+          value: number
+        }
+        Update: {
+          description?: string | null
+          key?: string
+          updated_at?: string
+          value?: number
+        }
+        Relationships: []
       }
       error_events: {
         Row: {
@@ -262,15 +317,26 @@ export type Database = {
           conversation_summary: string | null
           created_at: string
           estimated_range: string | null
+          goldie_session_id: string | null
           id: string
           last_contacted_at: string | null
           lead_score: number
           location: string | null
+          plan_reference: string | null
           priority: string
           project_state: Json
           project_type: string | null
           proposal_markdown: string | null
           recommended_plan: string | null
+          score_category: string | null
+          score_override: string | null
+          score_override_at: string | null
+          score_override_by: string | null
+          score_override_reason: string | null
+          score_reasons: Json | null
+          score_signals: Json | null
+          score_updated_at: string | null
+          source: string
           status: string
           timeline: string | null
           updated_at: string
@@ -285,15 +351,26 @@ export type Database = {
           conversation_summary?: string | null
           created_at?: string
           estimated_range?: string | null
+          goldie_session_id?: string | null
           id?: string
           last_contacted_at?: string | null
           lead_score?: number
           location?: string | null
+          plan_reference?: string | null
           priority?: string
           project_state?: Json
           project_type?: string | null
           proposal_markdown?: string | null
           recommended_plan?: string | null
+          score_category?: string | null
+          score_override?: string | null
+          score_override_at?: string | null
+          score_override_by?: string | null
+          score_override_reason?: string | null
+          score_reasons?: Json | null
+          score_signals?: Json | null
+          score_updated_at?: string | null
+          source?: string
           status?: string
           timeline?: string | null
           updated_at?: string
@@ -308,15 +385,26 @@ export type Database = {
           conversation_summary?: string | null
           created_at?: string
           estimated_range?: string | null
+          goldie_session_id?: string | null
           id?: string
           last_contacted_at?: string | null
           lead_score?: number
           location?: string | null
+          plan_reference?: string | null
           priority?: string
           project_state?: Json
           project_type?: string | null
           proposal_markdown?: string | null
           recommended_plan?: string | null
+          score_category?: string | null
+          score_override?: string | null
+          score_override_at?: string | null
+          score_override_by?: string | null
+          score_override_reason?: string | null
+          score_reasons?: Json | null
+          score_signals?: Json | null
+          score_updated_at?: string | null
+          source?: string
           status?: string
           timeline?: string | null
           updated_at?: string
@@ -379,6 +467,50 @@ export type Database = {
             columns: ["proposal_id"]
             isOneToOne: false
             referencedRelation: "proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_score_history: {
+        Row: {
+          created_at: string
+          id: string
+          lead_id: string
+          new_category: string
+          new_score: number
+          previous_category: string | null
+          previous_score: number | null
+          reason: string | null
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lead_id: string
+          new_category: string
+          new_score: number
+          previous_category?: string | null
+          previous_score?: number | null
+          reason?: string | null
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lead_id?: string
+          new_category?: string
+          new_score?: number
+          previous_category?: string | null
+          previous_score?: number | null
+          reason?: string | null
+          source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_score_history_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "goldie_leads"
             referencedColumns: ["id"]
           },
         ]
@@ -900,6 +1032,10 @@ export type Database = {
         }
         Returns: string
       }
+      engagement_rule: {
+        Args: { _fallback: number; _key: string }
+        Returns: number
+      }
       ensure_project_baseline: {
         Args: { _project_id: string }
         Returns: undefined
@@ -912,6 +1048,19 @@ export type Database = {
           live_visits: number
           project_id: string
           views: number
+        }[]
+      }
+      get_project_engagement_detailed: {
+        Args: { _project_ids: string[] }
+        Returns: {
+          project_id: string
+          suppressed_events: number
+          total_appreciations: number
+          total_live_visits: number
+          total_views: number
+          unique_appreciations: number
+          unique_live_visits: number
+          unique_views: number
         }[]
       }
       get_public_payment_request: {
@@ -964,6 +1113,10 @@ export type Database = {
         Returns: string
       }
       mark_plan_shared: { Args: { _reference: string }; Returns: undefined }
+      override_lead_category: {
+        Args: { _category: string; _lead_id: string; _reason: string }
+        Returns: undefined
+      }
       record_project_interaction: {
         Args: {
           _interaction_type: string
@@ -975,6 +1128,14 @@ export type Database = {
           live_visits: number
           project_id: string
           views: number
+        }[]
+      }
+      score_lead: {
+        Args: { _lead_id: string }
+        Returns: {
+          category: string
+          reasons: Json
+          score: number
         }[]
       }
       submit_plan: {
@@ -1005,12 +1166,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1034,11 +1195,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1059,11 +1220,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1084,11 +1245,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -1101,11 +1262,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
