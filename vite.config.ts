@@ -5,6 +5,7 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import fs from "node:fs";
 import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 
 // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
@@ -36,7 +37,6 @@ export default defineConfig({
         enforce: "pre",
         closeBundle() {
           try {
-            const fs = require("node:fs");
             if (
               fs.existsSync("dist/server/index.mjs") &&
               !fs.existsSync("dist/server/server.js")
