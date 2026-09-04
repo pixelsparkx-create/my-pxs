@@ -5,6 +5,7 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import fs from "node:fs";
 import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 
 // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
@@ -12,6 +13,10 @@ import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
+    // SPA mode emits a static index.html shell into dist/client so the site
+    // can be deployed to static hosts (e.g. Netlify publishing dist/client
+    // with the /*  /index.html  200 fallback).
+    spa: { enabled: true },
   },
   vite: {
     plugins: [
@@ -23,6 +28,25 @@ export default defineConfig({
         name: "externalize-cloudflare-workers",
         resolveId(id: string) {
           if (id === "cloudflare:workers") return { id, external: true };
+        },
+      },
+      {
+        // TanStack Start's prerender step expects dist/server/server.js, but
+        // the custom server entry builds to dist/server/index.mjs. Bridge the
+        // two before prerendering runs (enforce: "pre" => earlier closeBundle).
+        name: "prerender-server-entry-bridge",
+        enforce: "pre",
+        closeBundle() {
+          try {
+            if (
+              fs.existsSync("dist/server/index.mjs") &&
+              !fs.existsSync("dist/server/server.js")
+            ) {
+              fs.copyFileSync("dist/server/index.mjs", "dist/server/server.js");
+            }
+          } catch {
+            // best-effort; only needed for prerender builds
+          }
         },
       },
     ],
