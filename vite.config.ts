@@ -14,6 +14,17 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
-    plugins: [mcpPlugin()],
+    plugins: [
+      mcpPlugin(),
+      {
+        // `cloudflare:workers` is a Cloudflare-only virtual module used by
+        // @lovable.dev/mcp-js. Externalize it so non-Cloudflare builds
+        // (e.g. Netlify's nitro build) don't try to resolve it at build time.
+        name: "externalize-cloudflare-workers",
+        resolveId(id: string) {
+          if (id === "cloudflare:workers") return { id, external: true };
+        },
+      },
+    ],
   },
 });
