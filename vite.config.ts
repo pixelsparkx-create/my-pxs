@@ -28,6 +28,26 @@ export default defineConfig({
           if (id === "cloudflare:workers") return { id, external: true };
         },
       },
+      {
+        // TanStack Start's prerender step expects dist/server/server.js, but
+        // the custom server entry builds to dist/server/index.mjs. Bridge the
+        // two before prerendering runs (enforce: "pre" => earlier closeBundle).
+        name: "prerender-server-entry-bridge",
+        enforce: "pre",
+        closeBundle() {
+          try {
+            const fs = require("node:fs");
+            if (
+              fs.existsSync("dist/server/index.mjs") &&
+              !fs.existsSync("dist/server/server.js")
+            ) {
+              fs.copyFileSync("dist/server/index.mjs", "dist/server/server.js");
+            }
+          } catch {
+            // best-effort; only needed for prerender builds
+          }
+        },
+      },
     ],
   },
 });
