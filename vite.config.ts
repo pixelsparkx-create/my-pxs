@@ -13,9 +13,10 @@ import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
-    // Prerender routes to static HTML so the site can be deployed as a
-    // static bundle (e.g. Netlify publishing dist/client).
-    prerender: { enabled: true, crawlLinks: true },
+    // SPA mode emits a static index.html shell into dist/client so the site
+    // can be deployed to static hosts (e.g. Netlify publishing dist/client
+    // with the /*  /index.html  200 fallback).
+    spa: { enabled: true },
   },
   vite: {
     plugins: [
