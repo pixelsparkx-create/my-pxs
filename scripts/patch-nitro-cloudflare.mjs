@@ -28,6 +28,13 @@ if (source.includes("/* patched: tolerate immutable Request */")) {
   process.exit(0);
 }
 
+// Outside Cloudflare (prerender / vite preview) the handler is invoked with
+// no env/ctx, and the ASSETS hook reads env.ASSETS unguarded — default them.
+source = source.replace(
+  "async fetch(request, env, context) {",
+  "async fetch(request, env = {}, context = {}) {",
+);
+
 source = source
   .replace(open, `${open}\n\t/* patched: tolerate immutable Request */\n\ttry {`)
   .replace(
