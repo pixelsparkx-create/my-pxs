@@ -32,7 +32,7 @@ source = source
   .replace(open, `${open}\n\t/* patched: tolerate immutable Request */\n\ttry {`)
   .replace(
     close,
-    'req.waitUntil = ctx.context?.waitUntil.bind(ctx.context);\n\t} catch {\n\t\t// Request is immutable outside Cloudflare (prerender/preview) — skip augmentation.\n\t}',
+    'req.waitUntil = ctx.context?.waitUntil.bind(ctx.context);\n\t} catch {\n\t\t// Request is immutable outside Cloudflare (prerender/preview) — skip augmentation.\n\t}\n}',
   );
 
 fs.writeFileSync(file, source);
