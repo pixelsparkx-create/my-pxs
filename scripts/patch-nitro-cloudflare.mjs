@@ -23,7 +23,10 @@ if (!source.includes(open) || !source.includes(close)) {
   process.exit(0);
 }
 
-if (source.includes("/* patched: tolerate immutable Request */")) {
+if (
+  source.includes("/* patched: tolerate immutable Request */") &&
+  source.includes("async fetch(request, env = {}, context = {}) {")
+) {
   console.log("[patch-nitro-cloudflare] already patched");
   process.exit(0);
 }
