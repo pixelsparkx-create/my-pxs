@@ -70,7 +70,10 @@ export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
+      // Outside Cloudflare (prerender / vite preview / plain Node) no env or
+      // execution context is provided; the bundled handler reads env.ASSETS,
+      // so pass safe empty defaults instead of undefined.
+      const response = await handler.fetch(request, env ?? {}, ctx ?? {});
       return await normalizeCatastrophicSsrResponse(response);
     } catch (error) {
       console.error(error);
