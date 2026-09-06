@@ -66,30 +66,11 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   return brandedErrorResponse();
 }
 
-// The bundled nitro Cloudflare handler mutates the incoming Request
-// (req.ip, req.runtime, req.waitUntil). On real Cloudflare those sets succeed,
-// but in plain-Node contexts (prerender / vite preview) Request is immutable
-// and the assignment throws. A Proxy absorbs the mutations harmlessly.
-function mutableRequest(request: Request): Request {
-  const extra: Record<PropertyKey, unknown> = {};
-  return new Proxy(request, {
-    set(_target, prop, value) {
-      extra[prop] = value;
-      return true;
-    },
-    get(target, prop, receiver) {
-      if (prop in extra) return extra[prop];
-      const value = Reflect.get(target, prop, receiver);
-      return typeof value === "function" ? value.bind(target) : value;
-    },
-  });
-}
-
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
-      const response = await handler.fetch(mutableRequest(request), env, ctx);
+      const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
     } catch (error) {
       console.error(error);
