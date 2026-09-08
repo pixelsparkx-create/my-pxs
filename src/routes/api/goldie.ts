@@ -91,8 +91,14 @@ export const Route = createFileRoute("/api/goldie")({
                 route: "/api/goldie",
               });
               const message = error instanceof Error ? error.message : String(error);
-              if (message.includes("429")) return "Goldie is a bit busy right now — please try again in a moment.";
-              if (message.includes("402")) return "Goldie is temporarily unavailable. Please reach out on WhatsApp.";
+              if (message.includes("429") || /quota|rate limit/i.test(message))
+                return "Goldie is a bit busy right now — please try again in a moment, or message us on WhatsApp.";
+              if (message.includes("401") || message.includes("403") || /api key/i.test(message))
+                return "Goldie isn't able to answer right now. Please reach us on WhatsApp and we'll reply personally.";
+              if (message.includes("402"))
+                return "Goldie is temporarily unavailable. Please reach out on WhatsApp.";
+              if (/timeout|aborted|fetch failed|network/i.test(message))
+                return "Goldie lost connection for a moment. Please send that again.";
               return "Something went wrong on Goldie's side. Please try again.";
             },
             headers: getLovableAiGatewayResponseHeaders(undefined, {
