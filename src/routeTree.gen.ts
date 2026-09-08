@@ -21,13 +21,11 @@ import { Route as PricingGuideRouteImport } from './routes/pricing-guide'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
-import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ApiGoldieRouteImport } from './routes/api/goldie'
 import { Route as PayCodeRouteImport } from './routes/pay.$code'
 import { Route as PlanReferenceRouteImport } from './routes/plan.$reference'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
-import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicFlutterwaveWebhookRouteImport } from './routes/api/public/flutterwave-webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -90,12 +88,6 @@ const TestimonialsRoute = TestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotmcpChar93ListToolsRoute =
-  Char91DotmcpChar93ListToolsRouteImport.update({
-    id: '/.mcp/list-tools',
-    path: '/.mcp/list-tools',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -122,12 +114,6 @@ const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   path: '/.lovable/oauth/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotmcpChar93InvokeToolToolRoute =
-  Char91DotmcpChar93InvokeToolToolRouteImport.update({
-    id: '/.mcp/invoke-tool/$tool',
-    path: '/.mcp/invoke-tool/$tool',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ApiPublicFlutterwaveWebhookRoute =
   ApiPublicFlutterwaveWebhookRouteImport.update({
     id: '/api/public/flutterwave-webhook',
@@ -148,13 +134,11 @@ export interface FileRoutesByFullPath {
   '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/goldie': typeof ApiGoldieRoute
   '/pay/$code': typeof PayCodeRoute
   '/plan/$reference': typeof PlanReferenceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/flutterwave-webhook': typeof ApiPublicFlutterwaveWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -170,13 +154,11 @@ export interface FileRoutesByTo {
   '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/goldie': typeof ApiGoldieRoute
   '/pay/$code': typeof PayCodeRoute
   '/plan/$reference': typeof PlanReferenceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/flutterwave-webhook': typeof ApiPublicFlutterwaveWebhookRoute
 }
 export interface FileRoutesById {
@@ -193,13 +175,11 @@ export interface FileRoutesById {
   '/reviews': typeof ReviewsRoute
   '/services': typeof ServicesRoute
   '/testimonials': typeof TestimonialsRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/goldie': typeof ApiGoldieRoute
   '/pay/$code': typeof PayCodeRoute
   '/plan/$reference': typeof PlanReferenceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/flutterwave-webhook': typeof ApiPublicFlutterwaveWebhookRoute
 }
 export interface FileRouteTypes {
@@ -217,13 +197,11 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/services'
     | '/testimonials'
-    | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/api/goldie'
     | '/pay/$code'
     | '/plan/$reference'
     | '/.lovable/oauth/consent'
-    | '/.mcp/invoke-tool/$tool'
     | '/api/public/flutterwave-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -239,13 +217,11 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/services'
     | '/testimonials'
-    | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/api/goldie'
     | '/pay/$code'
     | '/plan/$reference'
     | '/.lovable/oauth/consent'
-    | '/.mcp/invoke-tool/$tool'
     | '/api/public/flutterwave-webhook'
   id:
     | '__root__'
@@ -261,13 +237,11 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/services'
     | '/testimonials'
-    | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/api/goldie'
     | '/pay/$code'
     | '/plan/$reference'
     | '/.lovable/oauth/consent'
-    | '/.mcp/invoke-tool/$tool'
     | '/api/public/flutterwave-webhook'
   fileRoutesById: FileRoutesById
 }
@@ -284,13 +258,11 @@ export interface RootRouteChildren {
   ReviewsRoute: typeof ReviewsRoute
   ServicesRoute: typeof ServicesRoute
   TestimonialsRoute: typeof TestimonialsRoute
-  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiGoldieRoute: typeof ApiGoldieRoute
   PayCodeRoute: typeof PayCodeRoute
   PlanReferenceRoute: typeof PlanReferenceRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
-  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicFlutterwaveWebhookRoute: typeof ApiPublicFlutterwaveWebhookRoute
 }
 
@@ -380,13 +352,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestimonialsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.mcp/list-tools': {
-      id: '/.mcp/list-tools'
-      path: '/.mcp/list-tools'
-      fullPath: '/.mcp/list-tools'
-      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -422,13 +387,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotlovableOauthConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.mcp/invoke-tool/$tool': {
-      id: '/.mcp/invoke-tool/$tool'
-      path: '/.mcp/invoke-tool/$tool'
-      fullPath: '/.mcp/invoke-tool/$tool'
-      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/flutterwave-webhook': {
       id: '/api/public/flutterwave-webhook'
       path: '/api/public/flutterwave-webhook'
@@ -452,14 +410,12 @@ const rootRouteChildren: RootRouteChildren = {
   ReviewsRoute: ReviewsRoute,
   ServicesRoute: ServicesRoute,
   TestimonialsRoute: TestimonialsRoute,
-  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApiGoldieRoute: ApiGoldieRoute,
   PayCodeRoute: PayCodeRoute,
   PlanReferenceRoute: PlanReferenceRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
-  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicFlutterwaveWebhookRoute: ApiPublicFlutterwaveWebhookRoute,
 }
 export const routeTree = rootRouteImport
