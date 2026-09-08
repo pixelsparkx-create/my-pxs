@@ -50,7 +50,7 @@ export function buildProposalHtml(brief: GoldieBrief) {
 ${body}
 <footer>
   Estimated project range — final quote subject to scope confirmation. This is a project proposal / discovery summary, not an invoice.<br/>
-  PixelSpark · Mohammed · WhatsApp +234 708 158 0318 · pixelsparkx@gmail.com
+  PixelSpark · Mohammed · WhatsApp +234 913 800 2457 · pixelsparkx@gmail.com
 </footer>
 <script>window.onload = () => window.print();</script>
 </body></html>`;

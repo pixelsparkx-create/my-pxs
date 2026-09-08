@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, ExternalLink, Sparkles, Play } from "lucide-react";
-import shot1 from "@/assets/bluerush-223505.png.asset.json";
-import shot2 from "@/assets/bluerush-223532.png.asset.json";
-import shot3 from "@/assets/bluerush-223641.png.asset.json";
+const shot1 = { url: "/portfolio/bluerush-1.jpg" };
+const shot2 = { url: "/portfolio/bluerush-2.jpg" };
+const shot3 = { url: "/portfolio/bluerush-3.jpg" };
 import {
   BLUERUSH_URL,
   EMOJI_FORGE_URL,

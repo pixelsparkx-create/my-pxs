@@ -140,7 +140,7 @@ export function defaultSections(state: Record<string, unknown> = {}, lead: Recor
     "next-steps":
       "1. Confirm the scope and package.\n2. Approve the official quote.\n3. Pay the project deposit to reserve your build slot.\n4. Share content, logo and brand assets.\n5. Design & development begins.",
     contact:
-      "PixelSpark · Mohammed\nWhatsApp: +234 708 158 0318\nEmail: pixelsparkx@gmail.com",
+      "PixelSpark · Mohammed\nWhatsApp: +234 913 800 2457\nEmail: pixelsparkx@gmail.com",
   };
 
   return STANDARD_SECTIONS.map((section) => ({

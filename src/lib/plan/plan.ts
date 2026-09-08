@@ -169,7 +169,7 @@ ${list("Integrations", plan.required_integrations)}
   <h2 style="margin-top:0">Ready To Build?</h2>
   <p class="muted">Start your project with PixelSpark — we'll confirm your scope and send a clear final quote before development begins.</p>
   <p>
-    WhatsApp: <a href="https://wa.me/${WHATSAPP_NUMBER}">+234 708 158 0318</a><br/>
+    WhatsApp: <a href="https://wa.me/${WHATSAPP_NUMBER}">+234 913 800 2457</a><br/>
     Email: <a href="mailto:${EMAIL_ADDRESS}">${EMAIL_ADDRESS}</a><br/>
     LinkedIn: <a href="${LINKEDIN_URL}">PixelSpark on LinkedIn</a>
   </p>
