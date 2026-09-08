@@ -9,3 +9,6 @@
   port = 8888
   framework = "#custom"
   autoLaunch = false
+=======
+  publish = "dist/client"
+>>>>>>> e73f5dfe593dc628a091cca98030561f7bbe1364
