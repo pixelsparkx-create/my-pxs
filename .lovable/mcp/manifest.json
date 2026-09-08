@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "sdk_version": "0.25.1",
+  "sdk_version": "2.0.3",
   "path": "/mcp",
   "auth": {
     "type": "oauth",
-    "issuer": "https://vtffshuxtlovfkpheuul.supabase.co/auth/v1",
+    "issuer": "https://jiidyhsqcrytmhukkuiy.supabase.co/auth/v1",
     "accepted_audiences": [
       "authenticated"
     ]
@@ -26,7 +26,7 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {}
         },
@@ -42,7 +42,7 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {}
         },
@@ -58,7 +58,7 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {}
         },
@@ -74,16 +74,17 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "limit": {
-              "description": "How many testimonials to return (default 10).",
               "type": "integer",
               "minimum": 1,
-              "maximum": 50
+              "maximum": 50,
+              "description": "How many testimonials to return (default 10)."
             }
-          }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
         },
         "outputSchema": null
       },
@@ -97,7 +98,6 @@
           "openWorldHint": false
         },
         "inputSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
           "type": "object",
           "properties": {
             "full_name": {
@@ -133,7 +133,9 @@
             "title",
             "rating",
             "message"
-          ]
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
         },
         "outputSchema": null
       }
