@@ -25,8 +25,8 @@ export const brand = {
 };
 
 export const contact = {
-  whatsapp: "+234 708 158 0318",
-  whatsappNumber: "2347081580318",
+  whatsapp: "+234 913 800 2457",
+  whatsappNumber: "2349138002457",
   email: "pixelsparkx@gmail.com",
   linkedin:
     "https://www.linkedin.com/in/pixel-squad-98a174402?utm_source=share_via&utm_content=profile&utm_medium=member_android",

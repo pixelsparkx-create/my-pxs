@@ -6,7 +6,7 @@ export const contact = {
   brand: "PixelSpark Studio",
   founder: "Mohammed",
   tagline: "Building websites, apps, and digital experiences that drive results.",
-  whatsapp: "+2347081580318",
+  whatsapp: "+2349138002457",
   email: "pixelsparkx@gmail.com",
 };
 

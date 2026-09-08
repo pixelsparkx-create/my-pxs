@@ -132,7 +132,7 @@ export function buildProposalDocument(proposal: Proposal, options: { print?: boo
   ${proposal.terms ? `<section class="block"><h2>Terms</h2>${bodyToHtml(proposal.terms)}</section>` : ""}
 </div>
 <footer>
-  ${escapeHtml(proposal.reference)} · PixelSpark · Mohammed · WhatsApp +234 708 158 0318 · pixelsparkx@gmail.com<br/>
+  ${escapeHtml(proposal.reference)} · PixelSpark · Mohammed · WhatsApp +234 913 800 2457 · pixelsparkx@gmail.com<br/>
   This document is a project proposal, not an invoice. Pricing is valid for 30 days from the date above.
 </footer>
 ${options.print ? `<script>window.onload = () => window.print();</script>` : ""}

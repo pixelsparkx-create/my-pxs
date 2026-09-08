@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = "2347081580318";
+export const WHATSAPP_NUMBER = "2349138002457";
 export const EMAIL_ADDRESS = "pixelsparkx@gmail.com";
 export const LINKEDIN_URL =
   "https://www.linkedin.com/in/pixel-squad-98a174402?utm_source=share_via&utm_content=profile&utm_medium=member_android";
