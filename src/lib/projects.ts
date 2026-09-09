@@ -14,6 +14,9 @@ const nevada1 = { url: "/portfolio/nevada-1.jpg" };
 const nevada2 = { url: "/portfolio/nevada-2.jpg" };
 const nevada3 = { url: "/portfolio/nevada-3.jpg" };
 const forge1 = { url: "/portfolio/emojiforge-1.jpg" };
+const forge2 = { url: "/portfolio/emojiforge-2.jpg" };
+const forge3 = { url: "/portfolio/emojiforge-3.jpg" };
+const forge4 = { url: "/portfolio/emojiforge-4.jpg" };
 const deenly1 = { url: "/portfolio/deenly-1.jpg" };
 const deenly2 = { url: "/portfolio/deenly-2.jpg" };
 const deenly3 = { url: "/portfolio/deenly-3.jpg" };
@@ -26,7 +29,7 @@ export const nevadaShots = [nevada1.url, nevada2.url, nevada3.url];
 
 export const EMOJI_FORGE_URL =
   "https://lovable.dev/share-preview/837c5ba5-8713-46ad-8b49-418fb1045c60#preview_url=https%3A%2F%2Fid-preview--837c5ba5-8713-46ad-8b49-418fb1045c60.lovable.app%3F__lovable_token%3DeyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiQ2pkZnF1RzJEMVk0aXRFMjNNeEFrVG5YVGRPMiIsInByb2plY3RfaWQiOiI4MzdjNWJhNS04NzEzLTQ2YWQtOGI0OS00MThmYjEwNDVjNjAiLCJhY2Nlc3NfdHlwZSI6InByb2plY3QiLCJpc3MiOiJsb3ZhYmxlLWFwaSIsInN1YiI6IjgzN2M1YmE1LTg3MTMtNDZhZC04YjQ5LTQxOGZiMTA0NWM2MCIsImF1ZCI6WyJsb3ZhYmxlLWFwcCJdLCJleHAiOjE3ODY1MDM3MjUsIm5iZiI6MTc4NTg5ODkyNSwiaWF0IjoxNzg1ODk4OTI1LCJqdGkiOiJmZTc5NDNlYy1jODg5LTRjNjctYTlhZi1jOTBlZGRjYzk0MWUifQ.fN4MgRXM2QZBQ131NSCWLYxPSDft_cJFwcE5yOXcWGJPdGPzRNS_BshXazSAEFQr8A7EIxI5GRdOxnvfBEkpQICaWP8JRdEWutw5kgTJs0Dd_Py7UJpgc-BKwATVI5_T8ufv2X_A-Ze_c7wDSLUGONv5FPytvUAh3LHs16cS8pbw_GBAsPZQCxI-ymtG3Sa0mFVMEG7UxW2H-Fagu4SeFY3Bu81Ao9EJaEm8-NhQP1g2q8YG2gAN6RsarM5rtydyLAgeJiOwmdjpexJu2P3KUcIAdMXRM76djM2EFYss5qn9QiBfuvDxViMoaSv3L4Iv6Ynz-3MSxxWoIU0nYpAct-kqEOvXLzR3MouQ0TSpkIox7wOtHkD6yc_7t7kekojmkMgMt-rpHZEbVpXTIItH30c76il4WoM8B8jMwKg7B2ANV7XLLBK_0A1n-4tgTr3w2m8B_0PQb_mmy6aYx1iUBoA5pTCS_sujz40VRPkeaPBoGcLBEI2gifLeo28Sh4MLjXceOD9E6qxLqRR5G3xuCXNUPINOWM_G2jEZNOKH0w3bPRqqLUK-d_a0T0zwbpcJIqBRQPozpjrNHUR6usfnWF_9i4p6ZTGnr1vfY-s1sIUnKqk-CzEWiG05eMoKHAkdOXf-p4Pbk5dxL5V9jqRzKbLFSHj377VJ_kEhoVxPdHo";
-export const emojiForgeShots = [forge1.url];
+export const emojiForgeShots = [forge1.url, forge2.url, forge3.url, forge4.url];
 
 export const DEENLY_URL = "https://mydeenly.netlify.app";
 export const deenlyShots = [deenly1.url, deenly2.url, deenly3.url];

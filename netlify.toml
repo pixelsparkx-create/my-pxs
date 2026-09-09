@@ -3,6 +3,15 @@
   publish = "dist"
   functions = ".netlify/functions-internal"
 
+[build.environment]
+  # Force Nitro's Netlify output so the server (and /api/goldie) is deployed
+  # as a Netlify function instead of a static-only site.
+  NITRO_PRESET = "netlify"
+  NODE_VERSION = "20"
+
+# NOTE: do NOT add a public/_redirects SPA catch-all (/* -> /index.html 200).
+# It intercepts /api/* requests and breaks Goldie in production.
+
 [dev]
   command = "bun run dev"
   targetPort = 8080
