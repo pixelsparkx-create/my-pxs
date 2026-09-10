@@ -23,7 +23,7 @@ export function resolveAiProvider(_initialRunId?: string): AiProvider | null {
   const google = createGoogleGenerativeAI({ apiKey });
 
   return {
-    model: google(process.env["GOOGLE_AI_MODEL"] || "gemini-2.5-flash"),
+    model: google(process.env["GOOGLE_AI_MODEL"] || "gemini-3.6-flash"),
     getRunId: () => undefined,
     waitForRunId: async () => undefined,
   };
