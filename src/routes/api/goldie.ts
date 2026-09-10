@@ -1,12 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, stepCountIs, streamText, tool, type UIMessage } from "ai";
 import { z } from "zod";
-import {
-  getLovableAiGatewayResponseHeaders,
-  getLovableAiGatewayRunId,
-  withLovableAiGatewayRunIdHeader,
-  LOVABLE_AIG_RUN_ID_HEADER,
-} from "@/lib/ai-gateway.server";
 import { resolveAiProvider, AI_UNCONFIGURED_MESSAGE } from "@/lib/ai-provider.server";
 import { buildSystemPrompt } from "@/lib/goldie/knowledge";
 import { reportServerError } from "@/lib/monitoring/report.server";
@@ -48,8 +42,7 @@ export const Route = createFileRoute("/api/goldie")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        const initialRunId = getLovableAiGatewayRunId(request);
-        const gateway = resolveAiProvider(initialRunId);
+        const gateway = resolveAiProvider();
         if (!gateway) return new Response(AI_UNCONFIGURED_MESSAGE, { status: 503 });
 
         try {
@@ -101,12 +94,9 @@ export const Route = createFileRoute("/api/goldie")({
                 return "Goldie lost connection for a moment. Please send that again.";
               return "Something went wrong on Goldie's side. Please try again.";
             },
-            headers: getLovableAiGatewayResponseHeaders(undefined, {
-              ...(initialRunId ? { [LOVABLE_AIG_RUN_ID_HEADER]: initialRunId } : {}),
-            }),
           });
 
-          return withLovableAiGatewayRunIdHeader(response, gateway);
+          return response;
         } catch (error) {
           console.error("[goldie] failed", error);
           await reportServerError({
