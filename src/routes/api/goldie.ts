@@ -37,6 +37,11 @@ export const Route = createFileRoute("/api/goldie")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        // A short id per request so streaming diagnostics can be traced end to end.
+        const requestId = Math.random().toString(36).slice(2, 10);
+        const startedAt = Date.now();
+        let firstChunkAt: number | undefined;
+
         const body = (await request.json()) as { messages?: unknown };
         if (!Array.isArray(body.messages)) {
           return new Response("Messages are required", { status: 400 });
@@ -50,7 +55,27 @@ export const Route = createFileRoute("/api/goldie")({
             model: gateway.model,
             system: buildSystemPrompt(),
             messages: await convertToModelMessages(body.messages as UIMessage[]),
-            stopWhen: stepCountIs(6),
+            // Bounded backoff for transient rate limits (429) and upstream 5xx,
+            // so a single busy moment no longer surfaces as a user-facing error.
+            maxRetries: 3,
+            // One tool round-trip is enough; more only multiplied latency and quota.
+            stopWhen: stepCountIs(3),
+            abortSignal: request.signal,
+            onChunk: () => {
+              if (firstChunkAt === undefined) {
+                firstChunkAt = Date.now();
+                console.log(
+                  `[goldie] ${requestId} first-chunk in ${firstChunkAt - startedAt}ms`,
+                );
+              }
+            },
+            onFinish: ({ finishReason }) => {
+              console.log(
+                `[goldie] ${requestId} done reason=${finishReason} ttfb=${
+                  firstChunkAt ? firstChunkAt - startedAt : -1
+                }ms total=${Date.now() - startedAt}ms`,
+              );
+            },
             tools: {
               update_brief: tool({
                 description:
@@ -73,7 +98,10 @@ export const Route = createFileRoute("/api/goldie")({
           const response = result.toUIMessageStreamResponse({
             originalMessages: body.messages as UIMessage[],
             onError: (error) => {
-              console.error("[goldie] stream error", error);
+              const message = error instanceof Error ? error.message : String(error);
+              // A visitor-cancelled stream is normal, not a failure.
+              if (/abort/i.test(message)) return "";
+              console.error(`[goldie] ${requestId} stream error`, message);
               void reportServerError({
                 message: "Goldie AI stream failed",
                 error,
@@ -82,15 +110,13 @@ export const Route = createFileRoute("/api/goldie")({
                 category: "ai",
                 operation: "AI_RESPONSE",
                 route: "/api/goldie",
+                context: { requestId, elapsedMs: Date.now() - startedAt },
               });
-              const message = error instanceof Error ? error.message : String(error);
               if (message.includes("429") || /quota|rate limit/i.test(message))
-                return "Goldie is a bit busy right now — please try again in a moment, or message us on WhatsApp.";
+                return "Goldie is getting more requests than the AI plan allows right now. Please try again shortly, or message us on WhatsApp.";
               if (message.includes("401") || message.includes("403") || /api key/i.test(message))
                 return "Goldie isn't able to answer right now. Please reach us on WhatsApp and we'll reply personally.";
-              if (message.includes("402"))
-                return "Goldie is temporarily unavailable. Please reach out on WhatsApp.";
-              if (/timeout|aborted|fetch failed|network/i.test(message))
+              if (/timeout|fetch failed|network/i.test(message))
                 return "Goldie lost connection for a moment. Please send that again.";
               return "Something went wrong on Goldie's side. Please try again.";
             },
@@ -98,7 +124,7 @@ export const Route = createFileRoute("/api/goldie")({
 
           return response;
         } catch (error) {
-          console.error("[goldie] failed", error);
+          console.error(`[goldie] ${requestId} failed`, error);
           await reportServerError({
             message: "Goldie request failed",
             error,
@@ -107,6 +133,7 @@ export const Route = createFileRoute("/api/goldie")({
             category: "ai",
             operation: "AI_REQUEST",
             route: "/api/goldie",
+            context: { requestId, elapsedMs: Date.now() - startedAt },
           });
           return new Response("Goldie is unavailable right now", { status: 500 });
         }
@@ -114,3 +141,4 @@ export const Route = createFileRoute("/api/goldie")({
     },
   },
 });
+
