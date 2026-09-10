@@ -184,7 +184,7 @@ function GoldiePanel({
   const panelRef = useRef<HTMLDivElement>(null);
 
   const transport = useMemo(() => new DefaultChatTransport({ api: "/api/goldie" }), []);
-  const { messages, sendMessage, status, setMessages, error } = useChat({
+  const { messages, sendMessage, status, setMessages, error, stop, clearError } = useChat({
     id: "goldie",
     messages: initialMessages,
     transport,
@@ -192,6 +192,15 @@ function GoldiePanel({
   });
 
   const busy = status === "submitted" || status === "streaming";
+
+  // The typing indicator must stay up from the moment Send is pressed until
+  // Goldie's first words actually land — tool calls arrive before any text.
+  const lastMessage = messages[messages.length - 1];
+  const lastAssistantHasText =
+    lastMessage?.role === "assistant" &&
+    (lastMessage.parts ?? []).some((p) => p.type === "text" && p.text.trim().length > 0);
+  const awaitingFirstWords = busy && !lastAssistantHasText;
+
 
   // Prefill from the pricing guide handoff so the visitor never repeats themselves.
   const handoffSent = useRef(false);
@@ -308,10 +317,13 @@ function GoldiePanel({
       voiceBaseRef.current = "";
       if (voice.listening) voice.toggle();
       setAtBottom(true);
+      // A previous failure must never linger over a fresh attempt.
+      clearError();
       void sendMessage({ text: value });
     },
-    [busy, sendMessage, voice],
+    [busy, sendMessage, voice, clearError],
   );
+
 
   const transcriptMessages: TranscriptMessage[] = useMemo(
     () =>
@@ -438,7 +450,7 @@ function GoldiePanel({
               />
             ))}
 
-            {status === "submitted" && (
+            {awaitingFirstWords && (
               <div className="flex items-end gap-2 goldie-fade">
                 <span className="h-6 w-6 shrink-0 rounded-full bg-gradient-gold text-ink grid place-items-center">
                   <Sparkles className="h-3 w-3" strokeWidth={2.4} />
@@ -577,14 +589,26 @@ function GoldiePanel({
                 </span>
               </button>
             )}
-            <button
-              type="submit"
-              disabled={busy || !input.trim()}
-              aria-label="Send message"
-              className="h-10 w-10 shrink-0 rounded-full bg-gradient-gold text-ink grid place-items-center shadow-gold transition-all disabled:opacity-40 disabled:shadow-none enabled:hover:-translate-y-0.5 enabled:active:scale-95"
-            >
-              {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-            </button>
+            {busy ? (
+              <button
+                type="button"
+                onClick={() => void stop()}
+                aria-label="Stop Goldie"
+                title="Stop"
+                className="h-10 w-10 shrink-0 rounded-full border border-gold/50 text-gold grid place-items-center transition-all hover:bg-gold/10 active:scale-95"
+              >
+                <span className="h-3 w-3 rounded-[3px] bg-gold" />
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={!input.trim()}
+                aria-label="Send message"
+                className="h-10 w-10 shrink-0 rounded-full bg-gradient-gold text-ink grid place-items-center shadow-gold transition-all disabled:opacity-40 disabled:shadow-none enabled:hover:-translate-y-0.5 enabled:active:scale-95"
+              >
+                <Send className="h-4 w-4" />
+              </button>
+            )}
           </form>
         </>
       )}
